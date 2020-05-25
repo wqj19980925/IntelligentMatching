@@ -19,11 +19,17 @@
           :key="child.path"
           :base-path="resolvePath(child.path)"
           class="nest-menu" />
-        <app-link v-else :to="resolvePath(child.path)" :key="child.name">
-          <el-menu-item :index="resolvePath(child.path)" v-if="child.pri_show == 1">
-            <item :img-url="child.pri_img" :title="generateTitle(child.meta.title)" />
-          </el-menu-item>
-        </app-link>
+
+        <!-- <app-link v-else :to="resolvePath(child.path)" :key="child.name"> -->
+          <template v-else>
+            <div @click="onLinks(child)">
+              <el-menu-item :index="resolvePath(child.path)" v-if="child.pri_show == 1">
+                <item :img-url="child.pri_img" :title="generateTitle(child.meta.title)" />
+              </el-menu-item>
+            </div>
+          </template>
+          
+        <!-- </app-link> -->
       </template>
     </el-submenu>
   </div>
@@ -36,7 +42,7 @@ import { isExternal } from '@/utils'
 import Item from './Item'
 import AppLink from './Link'
 import FixiOSBug from './FixiOSBug'
-
+import {requestSignin} from "@/api/commonAction"
 export default {
   name: 'SidebarItem',
   components: { Item, AppLink },
@@ -89,6 +95,32 @@ export default {
         return routePath
       }
       return path.resolve(this.basePath, routePath)
+    },
+    onLinks(child){
+      if(child.type == 2){
+        this.$router.push({path:'/'+child.parent_name+'/'+child.path})
+      }else{
+        console.log(child)
+        let datadd = {};
+        datadd.pri_id = child.meta.pri_id;
+        console.log(datadd)
+        requestSignin(datadd).then(success=>{
+          console.log(success)
+          if(success.data.code == 200){
+            window.location.href = 'http://'+success.data.data.url;
+          }else{
+            this.$message({
+              message:success.data.data,
+              type:'error'
+            })
+          }
+        }).catch(err=>{
+          this.$message({
+            message:'系统错误,跳转失败！',
+            type:'error'
+          })
+        })
+      }
     },
     isExternalLink(routePath) {
       return isExternal(routePath)

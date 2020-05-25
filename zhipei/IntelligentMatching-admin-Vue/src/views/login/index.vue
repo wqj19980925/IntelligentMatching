@@ -97,7 +97,7 @@
 						this.loading = true;
 						this.$store.dispatch("LoginByUsername", this.loginForm).then(data => {
 								this.loading = false;
-								console.log("登录信息", data)
+								// console.log("登录信息", data)
 								if(data.code === 400) {
 									this.$confirm("此账号已登录,是否强制登录?", "提示", {
 										confirmButtonText: "确定",

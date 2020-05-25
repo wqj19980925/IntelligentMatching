@@ -25,3 +25,22 @@ export function getDistributor(data){
         data
     })
 }
+
+// 获取来往单位 
+export function getinoutUnits(data){
+    return request({
+        url:'/getinoutUnits',
+        method:'post',
+        data
+    })
+}
+
+// 跳转旧系统 
+export function requestSignin(data){
+    return request({
+        url:'/requestSignin',
+        method:'post',
+        data
+    })
+}
+

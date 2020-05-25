@@ -81,6 +81,7 @@
 				</el-row>
 			</el-form>
 		</el-row>
+		<!-- 收货信息 -->
 		<el-row class="mainContentItemBox">
 			<div class="mainHeaderTitleBox">
 				<div class="titleNameBox">收货信息</div>

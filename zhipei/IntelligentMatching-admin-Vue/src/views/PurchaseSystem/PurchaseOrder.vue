@@ -5,9 +5,9 @@
 			<div class="mainHeaderTitleBox">
 				<div class="titleNameBox">信息筛选</div>
 				<div class="buttonBox">
-					<el-button plain type="primary" @click="addBrandBtn()">新增</el-button>
-					<el-button plain v-if="Btnshow.exportBtn" type="danger" @click="exportBtn">导出</el-button>
-					<el-button plain type="danger">生成账单</el-button>
+					<el-button type="primary" v-if="Btnshow.AddEntryBtn" @click="addBrandBtn()">新增</el-button>
+					<el-button v-if="Btnshow.exportBtn" class="btn-delete" @click="exportBtn">导出</el-button>
+					<el-button v-if="Btnshow.GenerateBillBtn" class="btn-delete" @click="GenerateBillBtn">生成账单</el-button>
 				</div>
 			</div>
 			<div class="receivListes-header">
@@ -20,12 +20,12 @@
 			</div>
 			<el-form ref="formList" :model="formList" size="medium" label-width="100px" class="mainSearchItemBox">
 				<el-row>
-					<el-col :span="8">
+					<el-col :span="6">
 						<el-form-item label="采购单号:" prop="cg_number">
 							<el-input v-model="formList.cg_number" placeholder="请输入采购单号"  clearable class="mainIptSelBox" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="6">
 						<el-form-item label="供货单位:" prop="cg_supplyunit">
 							<el-select
                                 v-model="formList.cg_supplyunit"
@@ -46,7 +46,7 @@
                             </el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="6">
 						<el-form-item label="创建人:" prop="cg_creator">
 							<el-input v-model="formList.cg_creator" placeholder="请输入创建人" max="10" :maxlength="10" clearable class="mainIptSelBox" />
 						</el-form-item>
@@ -58,88 +58,59 @@
 							</el-select>
 						</el-form-item>
 					</el-col> -->
-					<el-col :span="8">
+					<el-col :span="6">
 						<el-form-item label="结算状态:" prop="cg_settlementype">
 							<el-select v-model="formList.cg_settlementype" clearable class="mainIptSelBox">
 								<el-option v-for="item in cg_settlementypeList" :key="item.id" :label="item.name" :value="item.id" />
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="6">
 						<el-form-item label="包含产品:" prop="goods_name">
 							<el-input v-model="formList.goods_name" placeholder="请输入包含产品" max="10" :maxlength="10" clearable class="mainIptSelBox" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="6">
 						<el-form-item label="总金额:" prop="amount_start">
 							<el-input style="width: 38%;" v-model="formList.amount_start" placeholder="最小值" max="10" :maxlength="10" clearable/> -
 							<el-input style="width: 38%;" v-model="formList.amount_end" placeholder="最大值" max="10" :maxlength="10" clearable/>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="12">
 						<el-form-item label="创建时间" class="sd-form-item" prop="dataTimes">
-							<el-date-picker v-model="formList.dataTimes" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" class="mainIptSelBox">
+							<el-date-picker v-model="formList.dataTimes" type="daterange" value-format="yyyy-MM-dd" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" class="mainIptSelBox">
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="12">
 						<el-form-item label="到货时间" class="sd-form-item" prop="dataTimest">
-							<el-date-picker v-model="formList.dataTimest" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" class="mainIptSelBox">
+							<el-date-picker v-model="formList.dataTimest" type="daterange" align="right" value-format="yyyy-MM-dd" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" class="mainIptSelBox">
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
 					<div class="plr-10 fr">
 						<el-button @click="getinforData(page)" type="primary">搜&nbsp;&nbsp;索</el-button>
-						<el-button type="danger" @click="resetForm()">重&nbsp;&nbsp;置</el-button>
+						<el-button @click="resetForm()">重&nbsp;&nbsp;置</el-button>
 					</div>
 				</el-row>
 			</el-form>
 		</el-row>
 		<!-- 列表 -->
-		<el-row class="mainContentItemBox" v-if="deliveryList">
+		<el-row class="mainContentItemBox" v-if="deliveryList" >
 			<div class="mainHeaderTitleBox">
 				<div class="titleNameBox">采购列表</div>
 			</div>
-			<el-table :data="tableData" style="width: 100%">
+			<el-table :data="tableData" style="width: 100%" @selection-change="batchData">
 				<el-table-column type="selection" width="55">
-				</el-table-column>
-				<el-table-column type="expand">
-					<template slot-scope="props">
-						<el-table :data="props.row.storage_goods" style="width: 80%">
-							<el-table-column label="序号" min-width="80" align="center">
-								<template slot-scope="scope">
-									{{scope.$index+1}}
-								</template>
-							</el-table-column>
-							<el-table-column label="商品信息" prop="" width="300">
-								<template slot-scope="scope">
-									<div>
-										<p>商品品牌:{{scope.row.brand_name}}</p>
-										<p>商品类目:{{scope.row.sort_directory}}</p>
-										<p>商品编码:{{scope.row.general_version}}</p>
-										<p>商品名称:{{scope.row.goods_name}}</p>
-										<p>型号规格:{{scope.row.goods_standard}}</p>
-									</div>
-								</template>
-							</el-table-column>
-							<el-table-column label="数量" min-width="70" align="center" prop="goods_num" />
-							<el-table-column label="单位" min-width="70" align="center" prop="company_unit" />
-							<el-table-column label="单价" min-width="70" align="center" prop="univalence" />
-							<el-table-column label="税率" min-width="70" align="center" prop="tax_rate" />
-							<el-table-column label="币种" min-width="70" align="center" prop="currency" />
-							<el-table-column label="金额" min-width="70" align="center" prop="money" />
-							<el-table-column label="预计到货时间" min-width="150" align="center" prop="estimate_time" />
-						</el-table>
-					</template>
 				</el-table-column>
 				<el-table-column min-width="300" label="采购单信息"  prop="" >
 					<template slot-scope="scope">
 						<div>
-							<p>采购总价:{{scope.row.cg_amount}}</p>
-							<p>采购总数:{{scope.row.goods_count}}</p>
-							<p>合同号:{{scope.row.contract_number}}</p>
-							<p>采购单号:{{scope.row.cg_number}}</p>
-							<p>供货单位:{{scope.row.vendor}}</p>
+							<div>采购总价:{{scope.row.cg_amount}}</div>
+							<div>采购总数:{{scope.row.goods_count}}</div>
+							<div>合同号:{{scope.row.contract_number}}</div>
+							<div>采购单号:{{scope.row.cg_number}}</div>
+							<div>供货单位:{{scope.row.vendor}}</div>
 						</div>
 					</template>
 				</el-table-column>
@@ -159,9 +130,13 @@
 				</el-table-column>
 				<el-table-column label="操作" width="260" fixed="right" align="center">
 					<template slot-scope="scope">
-						<el-button size="mini" plain v-if="Btnshow.submitToExamine&&scope.row.cg_state==3" type="primary" @click="submitToExamine(scope.row)" >提交审核</el-button>
-						<el-button size="mini" plain v-if="Btnshow.toexamine&&scope.row.cg_state==1" type="primary"  @click="toexamine(scope.row)">审核</el-button>
-						<el-button size="mini" plain v-if="Btnshow.EditEntryBtn&&scope.row.cg_state==3" type="primary"  @click="EditEntryBtn(scope.row)">编辑</el-button>
+						<div class="mainOperationBtnBox">
+							<el-button v-if="Btnshow.EditEntryBtn&&scope.row.cg_state==3" type="primary"  @click="EditEntryBtn(scope.row)">采购编辑</el-button>
+							<el-button v-if="Btnshow.toexamine&&scope.row.cg_state==1" type="primary"  @click="toexamine(scope.row)">采购审核</el-button>
+							<el-button v-if="Btnshow.submitToExamine&&scope.row.cg_state==3" @click="submitToExamine(scope.row)" >提交审核</el-button>
+							<el-button v-if="Btnshow.ForceEditBtn&&(scope.row.cg_state==5||scope.row.cg_state==8)" type="primary"  @click="ForceEditBtn(scope.row)" >二次修改</el-button>
+							<el-button v-if="Btnshow.pageIndexBtn" @click="pageIndexBtn(scope.row)">查看商品</el-button>
+						</div>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -169,11 +144,46 @@
 				<el-pagination :current-page="page" :page-size="pageSize" :total="totalNum" layout="total, prev, pager, next, jumper" background @current-change="handleCurrentChange" />
 			</div>
 		</el-row>
+		<!-- 弹框 -->
+        <el-dialog :visible.sync="dialog.show" :title="dialog.title" :close-on-click-modal="false" :width="dialog.width" @close="closedia">
+            <el-form ref="dialogData" :model="dialogData">
+                <div v-if="dialog.function_action == 'pageindex'">
+                    <el-table :data="dialogData.tabelData" style="width: 100%">
+						<el-table-column label="序号" min-width="80" align="center">
+							<template slot-scope="scope">
+								{{scope.$index+1}}
+							</template>
+						</el-table-column>
+						<el-table-column label="商品信息" prop="" width="300">
+							<template slot-scope="scope">
+								<div>
+									<div>商品品牌:{{scope.row.brand_name}}</div>
+									<div>商品类目:{{scope.row.sort_directory}}</div>
+									<div>商品编码:{{scope.row.general_version}}</div>
+									<div>商品名称:{{scope.row.goods_name}}</div>
+									<div>型号规格:{{scope.row.goods_standard}}</div>
+								</div>
+							</template>
+						</el-table-column>
+						<el-table-column label="数量" min-width="70" align="center" prop="goods_num" />
+						<el-table-column label="单位" min-width="70" align="center" prop="company_unit" />
+						<el-table-column label="单价" min-width="70" align="center" prop="univalence" />
+						<el-table-column label="税率" min-width="70" align="center" prop="tax_rate" />
+						<el-table-column label="币种" min-width="70" align="center" prop="currency" />
+						<el-table-column label="金额" min-width="70" align="center" prop="money" />
+						<el-table-column label="预计到货时间" min-width="150" align="center" prop="estimate_time" />
+					</el-table>
+                </div>
+            </el-form>
+            <div align="center" slot="footer" >
+                <el-button class="btn-delete" @click="dialog.show = false">关 闭</el-button>
+            </div>
+        </el-dialog>
 		<!--<<添加采购单-->
 		<addPurchase v-if="adddeliveryMain" @listerToChild="addRetens()" />
 		<!--<<添加采购单-->
 		<!--<<编辑-->
-		<eidtPurchase :cg_number="cg_number" v-if="editdeliveryMain" @listerToChild="addRetens()" />
+		<eidtPurchase :editType="editType" :cg_number="cg_number" v-if="editdeliveryMain" @listerToChild="addRetens()" />
 		<!--<<编辑-->
 		<!--<<审核-->
 		<examinePurchas :cg_number="cg_number" v-if="examindeliveryMain" @listerToChild="addRetens()" />
@@ -187,7 +197,7 @@ import eidtPurchase from './components/eidtPurchase'; //送货单
 import examinePurchas from './components/examinePurchas'; //送货单
 
 import { getSupplierData } from '@/api/commonAction'
-import { PurchaseOrder_index,PurchaseOrder_SubmitReview, PurchaseOrder_exportData } from "@/api/PurchaseSystem"
+import { PurchaseOrder_index,PurchaseOrder_SubmitReview, PurchaseOrder_exportData ,PurchaseOrder_GenerateBill} from "@/api/PurchaseSystem"
 export default {
 	components: {
 		addPurchase,
@@ -196,6 +206,21 @@ export default {
 	},
     data() {
         return {
+			 // 弹框配置
+            dialog:{
+                width:"800px",
+                show:false,
+                title:"",
+                function_action:'',
+            },
+            // 弹框数据
+            dialogData:{
+                tabelData:[],
+            },
+			// 批量数据
+			batchchagngsData:[],
+			// 编辑类型 1 普通编辑 2 二次编辑
+			editType:"",
 			// 采购单号
 			cg_number:"",
 			//添加组件
@@ -318,6 +343,14 @@ export default {
                             this.Btnshow.EditEntryBtn = true;
                         }else if(butdata.action == 'exportData'){
 							this.Btnshow.exportBtn = true;
+						}else if(butdata.action == 'look'){
+							this.Btnshow.pageIndexBtn = true;
+						}else if(butdata.action == 'GenerateBill'){
+							this.Btnshow.GenerateBillBtn = true
+						}else if(butdata.action == 'AddEntry'){
+							this.Btnshow.AddEntryBtn = true;
+						}else if(butdata.action == 'ForceEdit'){
+							this.Btnshow.ForceEditBtn = true;
 						}
                     }
                 }else{
@@ -332,6 +365,65 @@ export default {
                 })
             })
         },
+		// 批量操作
+        batchData(val){
+            this.batchchagngsData = val;
+        },
+		// 弹框关闭
+        closedia(){
+            this.dialogData.tabelData = [];
+        },
+		// 查看
+        pageIndexBtn(data){
+            this.dialog.title = '采购商品';
+            this.dialog.width = '1000px';
+            this.dialog.function_action = 'pageindex'
+            this.dialogData.tabelData = data.storage_goods;
+            this.dialog.show = true;
+        },
+		// 生成账单
+		GenerateBillBtn(){
+			if(this.batchchagngsData.length==0){
+                this.$message({
+                    message:'请先选择列表数据',
+                    type:"warning"
+                })
+                return false;
+            }
+            const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
+            let cg_number = [];
+            for(let i=0;i<this.batchchagngsData.length;i++){
+                cg_number.push(this.batchchagngsData[i].cg_number)
+            }
+            var datadd  = {};
+            datadd.cg_number = cg_number;
+            PurchaseOrder_GenerateBill(datadd).then(success=>{
+                loading.close();
+                if(success.data.code == 200){
+                    this.$message({
+                        message:success.data.data,
+                        type:'success'
+                    })
+                    this.getinforData(this.page)
+                }else{
+                    this.$message({
+                        message:success.data.data,
+                        type:'error'
+                    })
+                }
+            }).catch(err=>{
+                loading.close();
+                this.$message({
+                    message:'生成账单失败！',
+                    type:"error"
+                })
+            })
+		},
 		// 匹配供货单位
         matchSupplier(e){
             this.loading = true;
@@ -354,6 +446,12 @@ export default {
                 })
             })
         },
+		ForceEditBtn(data){
+			this.editType = 2;
+			this.cg_number = data.cg_number;
+			this.deliveryList = false;
+			this.editdeliveryMain = true;
+		},
 		//添加采购单
 		addBrandBtn() {
 			this.adddeliveryMain = true
@@ -422,6 +520,7 @@ export default {
 		},
 		// 编辑
 		EditEntryBtn(data){
+			this.editType = 1;
 			this.cg_number = data.cg_number;
 			this.deliveryList = false;
 			this.editdeliveryMain = true;

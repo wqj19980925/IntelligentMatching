@@ -30,7 +30,7 @@
 					</el-col>
 					<el-col :span="6">
 						<el-form-item label="操作时间:" prop="startEndTime">
-							<el-date-picker v-model="formList.startEndTime" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" clearable class="mainIptSelBox"></el-date-picker>
+							<el-date-picker v-model="formList.startEndTime" type="daterange" range-separator="至" value-format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" clearable class="mainIptSelBox"></el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :span="6">

@@ -28,6 +28,15 @@ export function PurchasePlan_exportPurchasePlan(data){
     })
 }
 
+// 采购计划 添加
+export function PurchasePlan_AddPurchPlan(data){
+    return request({
+        url:'/PurchasePlan/AddPurchPlan',
+        method:'post',
+        data
+    })
+}
+
 // 采购管理 列表
 export function PurchaseOrder_index(data){
     return request({
@@ -79,3 +88,25 @@ export function PurchaseOrder_exportData(data){
         data
     })
 }
+
+
+// 采购管理 生成账单
+export function PurchaseOrder_GenerateBill(data){
+    return request({
+        url:'/PurchaseOrder/GenerateBill',
+        method:'post',
+        data
+    })
+}
+
+
+// 采购管理 二次编辑
+export function PurchaseOrder_ForceEdit(data){
+    return request({
+        url:'/PurchaseOrder/ForceEdit',
+        method:'post',
+        data
+    })
+}
+
+

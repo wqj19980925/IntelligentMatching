@@ -19,6 +19,7 @@ const user = {
     status: '',
     code: '',
     token: getToken(),
+    pri_id:"",
     name: '',
     avatar: '',
     introduction: '',
@@ -60,6 +61,9 @@ const user = {
     CASHIERDESKINDEX: (state, type ) => {
       state.cashierDeskindex = type
     },
+    SETPRI_ID: (state ,pri_id) => {
+      state.pri_id = pri_id
+    }
   },
 
   actions: {
@@ -67,20 +71,22 @@ const user = {
     LoginByUsername({
       commit
     }, userInfo) {
-      const company_name = userInfo.company_name.trim()
+      // const company_name = {...userInfo};
       return new Promise((resolve, reject) => {
-        loginByUsername(company_name, userInfo.username, userInfo.password,userInfo.type,userInfo.islogin).then(response => {
+        loginByUsername({...userInfo}).then(response => {
           const data = response.data
           if (errorStatus(data)) {
-            if (data.code === 200) {
+            if (data.code == 200) {
+              let data1 = {};
               if(data.data.userinfo == undefined){
-                var data1 = data
+                data1 = data
               }else{
-                var data1 = data
+                data1 = data
               }
               commit('SET_TOKEN', data1.api_token)
-              setAccType(data1.account_type)
+              commit('SET_NAME',data1.user_name)
               setToken(data1.api_token)
+              setAccType(data1.account_type)
               localStorage.setItem('Admin-Token',data1.api_token)
             }
           }
@@ -90,7 +96,11 @@ const user = {
         })
       })
     },
-
+    Setpri_id({
+      commit,
+    },PriId){
+      commit('SETPRI_ID',PriId)
+    },
     // 获取用户信息
 //  GetUserInfo({
 //    commit,

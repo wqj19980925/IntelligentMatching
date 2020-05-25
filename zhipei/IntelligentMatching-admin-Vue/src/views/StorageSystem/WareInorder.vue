@@ -5,7 +5,7 @@
 			<div class="mainHeaderTitleBox">
 				<div class="titleNameBox">信息筛选</div>
 				<div class="buttonBox">
-					<el-button plain v-if="Btnshow.exportBtn" type="danger" @click="exportBtn">导出</el-button>
+					<el-button  v-if="Btnshow.exportBtn" class="btn-delete" @click="exportBtn">导出</el-button>
 				</div>
 			</div>
 			<div class="receivListes-header">
@@ -18,12 +18,12 @@
 			</div>
 			<el-form ref="formList" :model="formList" size="medium" label-width="100px" class="mainSearchItemBox">
 				<el-row>
-					<el-col :span="8">
+					<el-col :span="6">
 						<el-form-item label="采购单号:" prop="cg_number">
 							<el-input v-model="formList.cg_number" placeholder="请输入采购单号"  clearable class="mainIptSelBox" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="6">
 						<el-form-item label="供货单位:" prop="cg_supplyunit">
 							<el-select
                                 v-model="formList.cg_supplyunit"
@@ -44,36 +44,37 @@
                             </el-select>
 						</el-form-item>
 					</el-col>
-                    <el-col :span="8">
+                    <el-col :span="6">
 						<el-form-item label="入库单号:" prop="rk_number">
 							<el-input v-model="formList.rk_number" placeholder="请输入采购单号"  clearable class="mainIptSelBox" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="6">
 						<el-form-item label="创建人:" prop="cg_creator">
 							<el-input v-model="formList.cg_creator" placeholder="请输入创建人" clearable class="mainIptSelBox" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					
+					<el-col :span="12">
+						<el-form-item label="创建时间" class="sd-form-item" prop="dataTimes">
+							<el-date-picker v-model="formList.dataTimes" type="daterange" value-format="yyyy-MM-dd" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" class="mainIptSelBox">
+							</el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="到货时间" class="sd-form-item" prop="dataTimest">
+							<el-date-picker v-model="formList.dataTimest" type="daterange" value-format="yyyy-MM-dd" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" class="mainIptSelBox">
+							</el-date-picker>
+						</el-form-item>
+					</el-col>
+                    <el-col :span="6">
 						<el-form-item label="包含产品:" prop="goods_name">
 							<el-input v-model="formList.goods_name" placeholder="请输入包含产品" max="10" :maxlength="10" clearable class="mainIptSelBox" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
-						<el-form-item label="创建时间" class="sd-form-item" prop="dataTimes">
-							<el-date-picker v-model="formList.dataTimes" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" class="mainIptSelBox">
-							</el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="到货时间" class="sd-form-item" prop="dataTimest">
-							<el-date-picker v-model="formList.dataTimest" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" class="mainIptSelBox">
-							</el-date-picker>
-						</el-form-item>
-					</el-col>
 					<div class="plr-10 fr">
 						<el-button @click="getinforData(page)" type="primary">搜&nbsp;&nbsp;索</el-button>
-						<el-button type="danger" @click="resetForm()">重&nbsp;&nbsp;置</el-button>
+						<el-button @click="resetForm()">重&nbsp;&nbsp;置</el-button>
 					</div>
 				</el-row>
 			</el-form>
@@ -84,38 +85,13 @@
 				<div class="titleNameBox">入库列表</div>
 			</div>
 			<el-table :data="tableData" style="width: 100%" class="tabelDatas">
-				<el-table-column type="expand">
-					<template slot-scope="props">
-						<el-table :data="props.row.storage_goods"  style="width: 82%" class="tabelDatas">
-							<el-table-column label="序号" min-width="60" align="center">
-								<template slot-scope="scope">
-									{{scope.$index+1}}
-								</template>
-							</el-table-column>
-							<el-table-column label="商品信息" prop="" min-width="300">
-								<template slot-scope="scope">
-									<div>
-										<p>商品品牌:{{scope.row.brand_name}}</p>
-										<p>商品类目:{{scope.row.sort_directory}}</p>
-										<p>商品编码:{{scope.row.general_version}}</p>
-										<p>商品名称:{{scope.row.goods_name}}</p>
-									</div>
-								</template>
-							</el-table-column>
-							<el-table-column label="采购数量" align="center"  prop="goods_num" />
-							<el-table-column label="入库数量" align="center" prop="ruku_num" />
-							<el-table-column label="单位" align="center" prop="company_unit" />
-							<el-table-column label="预计到货时间" min-width="150" align="center"  prop="estimate_time" />
-							<el-table-column label="实际到货时间" min-width="150" align="center"  prop="dh_time" />
-						</el-table>
-					</template>
-				</el-table-column>
-				<el-table-column label="入库信息" min-width="300" align="left" prop="cg_number" >\
+                <el-table-column type="selection" width="55"></el-table-column>				
+				<el-table-column label="入库信息" min-width="300" align="left" >
                     <template slot-scope="scope">
                         <div>
-                            <p>采购总数:{{scope.row.goods_count}}</p>
-                            <p>采购单号:{{scope.row.cg_number}}</p>
-                            <p>供货单位:{{scope.row.vendor}}</p>
+                            <div>采购总数:{{scope.row.goods_count}}</div>
+                            <div>采购单号:{{scope.row.cg_number}}</div>
+                            <div>供货单位:{{scope.row.vendor}}</div>
                         </div>
                     </template>
                 </el-table-column>			
@@ -136,17 +112,52 @@
 				</el-table-column>
 				<el-table-column label="操作" width="270" fixed="right" align="center">
 					<template slot-scope="scope">
-						<el-button size="mini" plain v-if="Btnshow.recordBtn&&scope.row.cg_state != 5" type="primary" @click="recordBtn(scope.row)" >记录</el-button>
-						<el-button size="mini" plain type="primary" v-if="Btnshow.WarehousingBtn&&scope.row.cg_state != 11" @click="WarehousingBtn(scope.row)">入库</el-button>
-						<el-button size="mini" plain type="primary" v-if="Btnshow.returnGoodsBtn&&scope.row.cg_state != 5" @click="returnGoodsBtn(scope.row)">退货</el-button>
-						<el-button size="mini" plain type="primary" v-if="Btnshow.exchanGoodsBtn&&scope.row.cg_state != 5" @click="exchanGoodsBtn(scope.row)">换货</el-button>
+                        <div class="mainOperationBtnBox">
+                            <el-button type="primary" v-if="Btnshow.WarehousingBtn&&scope.row.cg_state != 11" @click="WarehousingBtn(scope.row)">添加入库</el-button>
+                            <el-button v-if="Btnshow.recordBtn&&scope.row.cg_state != 5" class="btn-staCol" @click="recordBtn(scope.row)" >库房记录</el-button>
+                            <el-button class="btn-delete" v-if="Btnshow.returnGoodsBtn&&scope.row.cg_state != 5" @click="returnGoodsBtn(scope.row)">仓库退货</el-button>
+                            <el-button class="btn-mainCol" v-if="Btnshow.exchanGoodsBtn&&scope.row.cg_state != 5" @click="exchanGoodsBtn(scope.row)">仓库换货</el-button>
+                            <el-button v-if="Btnshow.pageIndexBtn" @click="pageIndexBtn(scope.row)">查看商品</el-button>
+                        </div>
 					</template>
 				</el-table-column>
 			</el-table>
 			<div v-if="tableData.length>0" class="mainPageTurningBox">
 				<el-pagination :current-page="page" :page-size="pageSize" :total="totalNum" layout="total, prev, pager, next, jumper" background @current-change="handleCurrentChange" />
 			</div>
-		</el-row> 
+		</el-row>
+         <!-- 弹框 -->
+        <el-dialog :visible.sync="dialog.show" :title="dialog.title" :close-on-click-modal="false" :width="dialog.width" @close="closedia">
+            <el-form ref="dialogData" :model="dialogData">
+                <div v-if="dialog.function_action == 'pageindex'">
+                    <el-table :data="dialogData.tabelData" style="width: 100%">
+                        <el-table-column label="序号" min-width="60" align="center">
+                            <template slot-scope="scope">
+                                {{scope.$index+1}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="商品信息" prop="" min-width="300">
+                            <template slot-scope="scope">
+                                <div>
+                                    <div>商品品牌:{{scope.row.brand_name}}</div>
+                                    <div>商品类目:{{scope.row.sort_directory}}</div>
+                                    <div>商品编码:{{scope.row.general_version}}</div>
+                                    <div>商品名称:{{scope.row.goods_name}}</div>
+                                </div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="采购数量" align="center"  prop="goods_num" />
+                        <el-table-column label="入库数量" align="center" prop="ruku_num" />
+                        <el-table-column label="单位" align="center" prop="company_unit" />
+                        <el-table-column label="预计到货时间" min-width="150" align="center"  prop="estimate_time" />
+                        <el-table-column label="实际到货时间" min-width="150" align="center"  prop="dh_time" />
+                    </el-table>
+                </div>
+            </el-form>
+            <div align="center" slot="footer" >
+                <el-button class="btn-delete" @click="dialog.show = false">关 闭</el-button>
+            </div>
+        </el-dialog>
         <!-- 记录 -->
         <record-list v-if="recordShow" :cg_number="cg_number" @listerToChild="returnFun"></record-list>
         <!-- 入库 -->
@@ -171,6 +182,17 @@ export default {
     },
     data() {
         return {
+            // 弹框配置
+            dialog:{
+                width:"800px",
+                show:false,
+                title:"",
+                function_action:'',
+            },
+            // 弹框数据
+            dialogData:{
+                tabelData:[],
+            },
             // child数据
             cg_number:'',
             // 父组件show
@@ -286,7 +308,9 @@ export default {
 							this.Btnshow.exportBtn = true;
 						}else if(butdata.action == 'exchanGoods'){
 							this.Btnshow.exchanGoodsBtn = true;
-						}
+						}else if(butdata.action == 'index'){
+                            this.Btnshow.pageIndexBtn = true; 
+                        }
                     }
                 }else{
                     this.tableData = [];
@@ -298,6 +322,18 @@ export default {
                     type:'error'
                 })
             })
+        },
+         // 弹框关闭
+        closedia(){
+            this.dialogData.tabelData = [];
+        },
+        // 查看
+        pageIndexBtn(data){
+            this.dialog.title = '入库商品';
+            this.dialog.width = '1000px';
+            this.dialog.function_action = 'pageindex'
+            this.dialogData.tabelData = data.storage_goods;
+            this.dialog.show = true;
         },
         // 重置
         resetForm(){

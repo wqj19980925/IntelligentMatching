@@ -1,13 +1,7 @@
 import request from '@/utils/request'
 // 登录
-export function loginByUsername(company_name, username, password, type, islogin) {
-  const data = {
-  	company_name,
-    username,
-    password,
-    type,
-    islogin
-  }
+export function loginByUsername(data) {
+  
   return request({
     url: '/login',
     method: 'post',

@@ -3,116 +3,120 @@
         <!-- 信息筛选 -->
 		<el-row class="mainContentItemBox examins">
 			<div class="mainHeaderTitleBox">
-				<div class="titleNameBox">基本信息</div>
+				<div class="titleNameBox">采购审核</div>
 				<div class="buttonBox">
-					<el-button plain type="primary" @click="back()">返回</el-button>
+					<el-button type="primary" @click="back()">返回</el-button>
 				</div>
 			</div>
 			<el-form ref="formList" :model="formList" size="medium" label-width="100px"  class="mainSearchItemBox">
-				<el-row>
-					<el-col :span="6" >
-						<el-form-item label="订单日期" prop="cg_purchasetime" class="mainFormSeeInfoBox">
-							{{formList.cg_purchasetime}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="6">
-						<el-form-item label="采购单号:" prop="" class="mainFormSeeInfoBox">
-                            {{formList.cg_number}}
-							<!-- <el-input disabled v-model="formList.cg_number" placeholder="请输入采购单号" max="10" :maxlength="10" clearable class="mainIptSelBox" /> -->
-						</el-form-item>
-					</el-col>
-					<el-col :span="6">
-						<el-form-item label="业务类型:" prop="business_type" class="mainFormSeeInfoBox">
-                            {{formList.business_type == 1?'普通采购':'样品采购'}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="6">
-						<el-form-item label="供应商:" prop="cg_supplyunit" class="mainFormSeeInfoBox">
-                            {{formList.group_name}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="6">
-						<el-form-item label="票据类型:" prop="cg_invoicetype" class="mainFormSeeInfoBox">
-                            {{formList.cg_invoicetype?'普通发票':'专用发票'}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="6">
-						<el-form-item label="结算方式:" prop="cg_paymentype" class="mainFormSeeInfoBox">
-                            {{formList.cg_paymentype == 1?'现金':formList.cg_paymentype == 2?'定期':formList.cg_paymentype == 3?'款到发货':formList.cg_paymentype == 4?'货到付款':formList.cg_paymentype == 5?'月结15天':formList.cg_paymentype == 6?'月结30天':'月结60天'}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="6">
-						<el-form-item label="交货方式:" prop="cg_delivertype" class="mainFormSeeInfoBox">
-                            {{formList.cg_delivertype?'送货上门':'自提'}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="6">
-						<el-form-item label="仓库:" prop="cg_wareid" class="mainFormSeeInfoBox">
-							{{formList.ware_name}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="6">
-						<el-form-item label="合同号:" prop="contract_number" class="mainFormSeeInfoBox">
-							{{formList.contract_number}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="6">
-						<el-form-item label="联系人:" prop="contact_name" class="mainFormSeeInfoBox">
-							{{formList.contact_name}}
-						</el-form-item>
-					</el-col>
-                    <el-col :span="6">
-						<el-form-item label="联系方式:" prop="contact_phone" class="mainFormSeeInfoBox">
-							{{formList.contact_phone}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="6">
-						<el-form-item label="部门:" prop="group_id" class="mainFormSeeInfoBox">
-							{{formList.group_name}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="6">
-						<el-form-item label="备注:" prop="cg_remark" class="mainFormSeeInfoBox">
-							{{formList.cg_remark}}
-						</el-form-item>
-					</el-col>
-				</el-row>
+                 <!-- 基本信息 -->
+                <el-card shadow="never" class="box-card mainCardBorNoneBox">
+                    <div slot="header" class="clearfix">
+                        <span>基本信息:</span>
+                    </div>
+                    <el-row>
+                        <el-col :span="6" >
+                            <el-form-item label="订单日期" prop="cg_purchasetime" class="mainFormSeeInfoBox">
+                                {{formList.cg_purchasetime}}
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="采购单号:" prop="" class="mainFormSeeInfoBox">
+                                {{formList.cg_number}}
+                                <!-- <el-input disabled v-model="formList.cg_number" placeholder="请输入采购单号" max="10" :maxlength="10" clearable class="mainIptSelBox" /> -->
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="业务类型:" prop="business_type" class="mainFormSeeInfoBox">
+                                {{formList.business_type == 1?'普通采购':'样品采购'}}
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="供应商:" prop="cg_supplyunit" class="mainFormSeeInfoBox">
+                                {{formList.group_name}}
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="票据类型:" prop="cg_invoicetype" class="mainFormSeeInfoBox">
+                                {{formList.cg_invoicetype?'普通发票':'专用发票'}}
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="结算方式:" prop="cg_paymentype" class="mainFormSeeInfoBox">
+                                {{formList.cg_paymentype == 1?'现金':formList.cg_paymentype == 2?'定期':formList.cg_paymentype == 3?'款到发货':formList.cg_paymentype == 4?'货到付款':formList.cg_paymentype == 5?'月结15天':formList.cg_paymentype == 6?'月结30天':'月结60天'}}
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="交货方式:" prop="cg_delivertype" class="mainFormSeeInfoBox">
+                                {{formList.cg_delivertype?'送货上门':'自提'}}
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="仓库:" prop="cg_wareid" class="mainFormSeeInfoBox">
+                                {{formList.ware_name}}
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="合同号:" prop="contract_number" class="mainFormSeeInfoBox">
+                                {{formList.contract_number}}
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="联系人:" prop="contact_name" class="mainFormSeeInfoBox">
+                                {{formList.contact_name}}
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="联系方式:" prop="contact_phone" class="mainFormSeeInfoBox">
+                                {{formList.contact_phone}}
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="部门:" prop="group_id" class="mainFormSeeInfoBox">
+                                {{formList.group_name}}
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="备注:" prop="cg_remark" class="mainFormSeeInfoBox">
+                                {{formList.cg_remark}}
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </el-card>
+				 <!-- 商品信息 -->
+                <el-card shadow="never" class="box-card mainCardBorNoneBox">
+                    <div slot="header" class="clearfix">
+                        <span>商品信息:</span>
+                    </div>
+                    <el-table :data="tableData" style="width: 100%">
+                        <el-table-column width="50px" align="center" label="序号" >
+                            <template slot-scope="scope">
+                                {{scope.$index+1}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="商品信息" prop="" width="300">
+                            <template slot-scope="scope">
+                                <div>
+                                    <p>商品品牌:{{scope.row.brand_name}}</p>
+                                    <p>商品类目:{{scope.row.sort_directory}}</p>
+                                    <p>商品编码:{{scope.row.general_version}}</p>
+                                    <p>商品名称:{{scope.row.goods_name}}</p>
+                                    <p>型号规格:{{scope.row.goods_standard}}</p>
+                                </div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="数量" align="center" prop="goods_num"/>
+                        <el-table-column label="单位" align="center" prop="company_unit" />
+                        <el-table-column label="单价" align="center" prop="univalence"/>
+                        <el-table-column prop="tax_rate" align="center" label="税率"/>
+                        <el-table-column prop="currency" align="center" label="币种"/>
+                        <el-table-column label="金额" align="center" prop="money"/>
+                        <el-table-column prop="estimate_time" align="center" label="预计到货时间"/>
+                    </el-table>
+                </el-card>
 			</el-form>
 		</el-row>
-        <!-- 列表 -->
-		<el-row class="mainContentItemBox">
-			<div class="mainHeaderTitleBox">
-				<div class="titleNameBox">商品信息</div>
-			</div>
-			
-			<el-table :data="tableData" style="width: 100%">
-				<el-table-column width="50px" label="序号" >
-                    <template slot-scope="scope">
-                        {{scope.$index+1}}
-                    </template>
-                </el-table-column>
-				<el-table-column label="商品信息" prop="" width="300">
-                    <template slot-scope="scope">
-                        <div>
-                            <p>商品品牌:{{scope.row.brand_name}}</p>
-                            <p>商品类目:{{scope.row.sort_directory}}</p>
-                            <p>商品编码:{{scope.row.general_version}}</p>
-                            <p>商品名称:{{scope.row.goods_name}}</p>
-                        </div>
-                    </template>
-                </el-table-column>
-				<el-table-column label="型号规格" prop="goods_standard" />
-				<el-table-column label="数量" prop="goods_num"/>
-				<el-table-column label="单位" prop="company_unit" />
-				<el-table-column label="单价" prop="univalence"/>
-				<el-table-column prop="tax_rate" label="税率"/>
-				<el-table-column prop="currency" label="币种"/>
-				<el-table-column label="金额" prop="money"/>
-				<el-table-column prop="estimate_time" label="预计到货时间"/>
-				
-			</el-table>
-			
-		</el-row>
+      
         <div style="height: 61px;"></div>
 		<div class="bottomBtn">
 			总金额：{{moneys}}

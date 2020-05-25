@@ -113,4 +113,8 @@ input:-webkit-autofill:active {
           color: #666;
       }
     // }
+    // 数据展示时 去掉 margin
+    .detailsd  .el-form-item--medium .el-form-item__content{
+        line-height: 20px;
+    }
 </style>

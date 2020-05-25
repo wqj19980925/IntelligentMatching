@@ -21,6 +21,9 @@ export const routerMap = {
 	//分销系统
 	Distribution: () => import('@/views/DistributionSystem/Distribution'),// 新入库单管理
 
+	//对账系统
+	BillManage: () => import('@/views/ReconcilSystem/BillManage'),// 账单管理
+
 	// 系统设置
 	Czrz: () => import('@/views/System/Czrz'),// 日志管理
 	
@@ -63,6 +66,7 @@ export const constantRouterMap = [
 
 export default new Router({
 	// mode: 'history', // require service support
+	// base: '/dist',
 	scrollBehavior: () => ({
 		y: 0
 	}),

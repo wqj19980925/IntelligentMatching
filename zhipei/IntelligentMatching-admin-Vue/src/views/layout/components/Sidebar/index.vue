@@ -49,11 +49,14 @@ export default {
   },
   created() {
     // this.permission_routers.splice(2,2);
-    // console.log('-------',this.$store)
+    
+    this.$store.dispatch('Setpri_id',this.$route.meta.pri_id)
+    // console.log('-------',this.$store,this.$route);
   },
   watch:{
       $route() {
-        // console.log('ppppp34567890',this.isactive)
+        //console.log('ppppp34567890',this.isactive)
+        this.$store.dispatch('Setpri_id',this.$route.meta.pri_id)
         if(this.$route.meta.pri_id == 102){
         //   this.isactive = null;
         // }else{

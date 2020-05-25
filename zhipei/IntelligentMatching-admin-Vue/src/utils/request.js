@@ -26,19 +26,21 @@ service.interceptors.request.use(
 		//	 config.data.api_token =localStorage.getItem('Admin-Token') /*getToken()*/
 		// }
 		const toKen = localStorage.getItem('Admin-Token');
-		let pri_id;
-		let urltext = window.location.href.split('#')[1]
-		for(var i=0;i<store.getters.visitedViews.length;i++){
-			if(urltext.indexOf(store.getters.visitedViews[i].name)>-1 && urltext.indexOf(store.getters.visitedViews[i].path)>-1){
-				pri_id = store.getters.visitedViews[i].meta.pri_id;
-			}
-		}
+		// let urltext = window.location.href.split('#')[1]
+		// for(var i=0;i<store.getters.visitedViews.length;i++){
+		// 	if(urltext.indexOf(store.getters.visitedViews[i].name)>-1 && urltext.indexOf(store.getters.visitedViews[i].path)>-1){
+		// 		pri_id = store.getters.visitedViews[i].meta.pri_id;
+		// 	}
+		// }
 		if(toKen){
 			config.data.api_token = toKen;
 		}else{
 			config.data.api_token = '';
 		}
-		config.data.pri_id = pri_id;
+		if(!config.data.pri_id){
+			config.data.pri_id = store.getters.pri_id;
+		}
+		// console.log('pppppp',config)
 		return config
 	},
 	error => {
