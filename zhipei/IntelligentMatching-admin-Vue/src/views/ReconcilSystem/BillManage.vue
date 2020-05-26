@@ -91,7 +91,7 @@
                 </el-table-column>
 				<el-table-column label="结款状态"  align="center">
                     <template slot-scope="scope">
-                        {{scope.row.bi_state == 1?'待审核':scope.row.bi_state == 1?'未结款':scope.row.bi_state == 1?'部分结款':'已结款'}}
+                        {{cg_stateList[scope.row.bi_state].name}}
                     </template>
                 </el-table-column>
 				<el-table-column label="操作" min-width="150"  align="center">

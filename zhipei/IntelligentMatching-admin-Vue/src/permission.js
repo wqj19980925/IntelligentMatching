@@ -61,6 +61,7 @@
 				}
 			}
 		}else {
+			localStorage.clear();
 			let rolesKey = localStorage.getItem('rolesKey')
 			if(rolesKey != 1){
 				let datadd = {};

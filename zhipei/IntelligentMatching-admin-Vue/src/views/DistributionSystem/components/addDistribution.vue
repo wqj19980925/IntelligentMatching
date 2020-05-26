@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- 信息筛选 -->
-		<el-row class="mainContentItemBox">
+		<el-row class="mainContentItemBox detailsd">
 			<div class="mainHeaderTitleBox">
 				<div class="titleNameBox">添加分销</div>
 				<div class="buttonBox">
@@ -16,7 +16,7 @@
                     </div>
                     <el-row>
                         <el-col :span="6">
-                            <el-form-item label="订单日期"  prop="do_purchasetime" required>
+                            <el-form-item label="订单日期"  prop="do_purchasetime" >
                                 <el-date-picker v-model="formList.do_purchasetime" align="right" type="date" placeholder="选择日期"  class="mainIptSelBox" :picker-options="pickerOptions">
                                 </el-date-picker>
                             </el-form-item>
@@ -43,6 +43,7 @@
                                     class="mainIptSelBox"
                                     clearable
                                     reserve-keyword
+                                    @change="distribuchange"
                                     placeholder="请输入分销商"
                                     :remote-method="matchdistribution"
                                     :loading="loading">
@@ -116,7 +117,7 @@
                     </div>
                     <el-row>
                         <el-col :span="6">
-                            <el-form-item label="收件人姓名" prop="shr_name" required>
+                            <el-form-item label="收件人姓名:" prop="shr_name" >
                                 <el-input v-model="formList.shr_name" placeholder="请输入收件人姓名" max="10" :maxlength="10" clearable class="mainIptSelBox" />
                             </el-form-item>
                         </el-col>
@@ -141,6 +142,12 @@
                                 <el-input v-model="formList.shr_adress" placeholder="请输入收件人详细地址"  clearable class="mainIptSelBox" />
                             </el-form-item>
                         </el-col>
+                        <el-col :span="12" v-if="formList.showaddress">
+                            <el-form-item label="地址:" class="mainFormSeeInfoBox">
+                                {{formList.shr_detsiladdress}}
+                                <!-- <el-input v-model="formList.shr_detsiladdress" placeholder="请输入收件人详细地址"  clearable class="mainIptSelBox" /> -->
+                            </el-form-item>
+                        </el-col>                        
                     </el-row>
 				</el-card>
                 <!-- 商品信息 -->
@@ -248,7 +255,6 @@
                         <el-table-column label="金额" v-if="group_type == 1" min-width="80" align="center">
                             <template slot-scope="scope">
                                 {{scope.row.money}}
-                                <!-- <el-input v-model="scope.row.money" placeholder="" max="10" :maxlength="10" clearable class="mainIptSelBox" /> -->
                             </template>
                         </el-table-column>
                         <el-table-column min-width="150" v-if="group_type == 1" align="center" label="预计到货时间">
@@ -398,6 +404,8 @@ export default {
                 shr_adress:"",
                 shr_phone:"",
                 shr_name:"",
+                shr_detsiladdress:'',
+                showaddress:false,
             },
             // 时间快捷
             pickerOptions: {
@@ -472,6 +480,53 @@ export default {
                 });
                 this.back();
             })
+        },
+        distribuchange(e){
+            if(this.formList.do_businesstype == 1){
+                for(var i=0;i<this.distributionList.length;i++){
+                    if(this.distributionList[i].id == e){
+                        this.formList.shr_name = this.distributionList[i].send_name;
+                        this.formList.shr_phone = this.distributionList[i].send_phone;
+                        this.formList.shr_sheng = this.distributionList[i].send_sheng;
+                        this.formList.shr_city = this.distributionList[i].send_shi;
+                        this.formList.shr_xian = this.distributionList[i].send_xian;
+                        this.formList.shr_adress = this.distributionList[i].send_address;
+                        // CodeToText[this.formList.selectedOptions[0]];
+                        this.formList.selectedOptions = [];
+                        for(let it in CodeToText){
+                            let itText = CodeToText[it];
+                            if(itText.indexOf(this.formList.shr_sheng.replace('省',''))>-1||this.formList.shr_sheng.indexOf(itText.replace('省',''))>-1){
+                                this.formList.selectedOptions.push(it);
+                                 break;
+                            }
+                        }
+                        for(let it in CodeToText){
+                            let itText = CodeToText[it];
+                            if(itText.indexOf(this.formList.shr_city)>-1||this.formList.shr_city.indexOf(itText)>-1){
+                                this.formList.selectedOptions.push(it);
+                                break;
+                            }
+                        }
+                        for(let it in CodeToText){
+                            let itText = CodeToText[it];
+                            if(itText.indexOf(this.formList.shr_xian)>-1||this.formList.shr_xian.indexOf(itText)>-1){
+                                this.formList.selectedOptions.push(it);
+                                 break;
+                            }
+                        }
+                        // console.log(this.formList.selectedOptions)
+                        if(this.formList.selectedOptions.length != 3){
+                            this.formList.selectedOptions = [];
+                        }
+                        this.formList.shr_detsiladdress = this.formList.shr_sheng+this.formList.shr_city+this.formList.shr_xian+this.formList.shr_adress;
+                        this.formList.showaddress = true;
+                        this.$forceUpdate();
+                        break;
+                    }
+                }
+            }else{
+                this.formList.showaddress = false;
+            }
         },
         // 数据列表删除
         deltaiFun(index){

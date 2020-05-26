@@ -87,7 +87,6 @@
 				immediate: true
 			}
 		},
-		created() {},
 		methods: {
 			// 登录
 			handleLogin() {

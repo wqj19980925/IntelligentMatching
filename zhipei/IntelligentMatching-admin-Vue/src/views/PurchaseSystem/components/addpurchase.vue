@@ -16,13 +16,13 @@
                     </div>
                     <el-row>
                         <el-col :span="6">
-                            <el-form-item label="订单日期" class="sd-form-item" prop="cg_purchasetime" required >
+                            <el-form-item label="订单日期" class="sd-form-item" prop="cg_purchasetime">
                                 <el-date-picker v-model="formList.cg_purchasetime" align="right" type="date" value-format="yyyy-MM-dd" placeholder="选择日期" :picker-options="pickerOptions" class="mainIptSelBox">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item label="业务类型:" prop="business_type"  required>
+                            <el-form-item label="业务类型:" prop="business_type">
                                 <el-select v-model="formList.business_type"  class="mainIptSelBox">
                                     <el-option label="普通采购" :value="1" />
                                     <el-option label="样品采购" :value="2" />
@@ -30,7 +30,7 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item label="供应商:" prop="cg_supplyunit" required>
+                            <el-form-item label="供应商:" prop="cg_supplyunit">
                                 <el-select
                                     v-model="formList.cg_supplyunit"
                                     filterable
@@ -51,7 +51,7 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item label="票据类型:" prop="cg_invoicetype" required>
+                            <el-form-item label="票据类型:" prop="cg_invoicetype">
                                 <el-select v-model="formList.cg_invoicetype" class="mainIptSelBox">
                                     <el-option label="不开票 " :value="0" />
                                     <el-option label="普通发票 " :value="1" />
@@ -60,7 +60,7 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item label="结算方式:" prop="cg_paymentype" required>
+                            <el-form-item label="结算方式:" prop="cg_paymentype" >
                                 <el-select v-model="formList.cg_paymentype" clearable class="mainIptSelBox">
                                     <el-option label="款到发货" :value="3" />
                                     <el-option label="货到付款" :value="4" />
@@ -71,7 +71,7 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item label="交货方式:" prop="cg_delivertype" required>
+                            <el-form-item label="交货方式:" prop="cg_delivertype" >
                                 <el-select v-model="formList.cg_delivertype" clearable class="mainIptSelBox">
                                     <el-option label="送货上门" :value="1" />
                                     <el-option label="自提" :value="2" />
@@ -79,24 +79,24 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item label="仓库:" class="sd-form-item" prop="cg_wareid" required>
+                            <el-form-item label="仓库:" class="sd-form-item" prop="cg_wareid" >
                                 <el-select v-model="formList.cg_wareid" clearable class="mainIptSelBox">
                                     <el-option v-for="item in warehouseList" :key="item.ware_id" :label="item.ware_name" :value="item.ware_id" />
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item label="合同号:" class="sd-form-item" prop="contract_number" required>
+                            <el-form-item label="合同号:" class="sd-form-item" prop="contract_number" >
                                 <el-input v-model="formList.contract_number" placeholder="请输入合同号"  clearable class="mainIptSelBox" />
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item label="联系人:" class="sd-form-item" prop="contact_name" required>
+                            <el-form-item label="联系人:" class="sd-form-item" prop="contact_name" >
                                 <el-input v-model="formList.contact_name" placeholder="请输入联系人" max="10" :maxlength="10" clearable class="mainIptSelBox" />
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item label="联系方式:" class="sd-form-item" prop="contact_phone" required>
+                            <el-form-item label="联系方式:" class="sd-form-item" prop="contact_phone" >
                                 <el-input v-model="formList.contact_phone" placeholder="请输入联系方式" max="11" :maxlength="11" clearable class="mainIptSelBox" />
                             </el-form-item>
                         </el-col>

@@ -103,7 +103,7 @@
                         <el-table-column label="已入库数量" align="center" prop="ruku_num" />
                         <el-table-column label="数量" align="center">
                             <template slot-scope="scope">
-                                <el-input v-model="scope.row.num" @focus="scope.row.num==0?scope.row.num='':''" @blur="!/^\d+$/.test(scope.row.num)?scope.row.num=0:scope.row.num==''?scope.row.num=0:''" placeholder="数量" max="10" :maxlength="10" clearable class="mainIptSelBox" />
+                                <el-input v-if="scope.row.ruku_num != scope.row.goods_num" v-model="scope.row.num" @focus="scope.row.num==0?scope.row.num='':''" @blur="!/^\d+$/.test(scope.row.num)?scope.row.num=0:scope.row.num==''?scope.row.num=0:''" placeholder="数量" max="10" :maxlength="10" clearable class="mainIptSelBox" />
                             </template>
                         </el-table-column>
                         <el-table-column label="单位" align="center" prop="company_unit" />
